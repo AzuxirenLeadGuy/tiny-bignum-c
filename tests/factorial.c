@@ -30,7 +30,7 @@
 
 
 #include <stdio.h>
-#include "bn.h"
+#include <bn.h>
 
 
 
@@ -62,7 +62,7 @@ void factorial(struct bn* n, struct bn* res)
 }
 
 
-int main()
+int main(void)
 {
   struct bn num;
   struct bn result;

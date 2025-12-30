@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "bn.h"
+#include <bn.h>
 
 
 /* For table-defined list of tests */
@@ -185,7 +185,7 @@ const int ntests = sizeof(oracle) / sizeof(*oracle);
 
 
 
-int main()
+int main(void)
 {
   struct bn sa, sb, sc, sd;
   uint32_t ia, ib, ic;
@@ -227,7 +227,7 @@ int main()
       case '>': bignum_rshift(&sa, &sd, ib); break;
 
       /* Crash program if operator is unsupported. */
-      default:  require(0, "default switch-case hit");
+      default:  return -2;
     }
 
     /* Verify validity: */

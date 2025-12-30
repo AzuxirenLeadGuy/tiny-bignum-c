@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "bn.h"
+#include <bn.h>
 
 /*
 
@@ -92,7 +92,7 @@ void divide2(unsigned dividend, unsigned divisor, unsigned* quotient, unsigned* 
   }
 }  /* unsigned_divide */
 
-int main()
+int main(void)
 {
   unsigned a,b,q,r;
 

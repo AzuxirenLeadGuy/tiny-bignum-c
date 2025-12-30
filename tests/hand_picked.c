@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "bn.h"
+#include <bn.h>
 
 
 int npassed = 0;
@@ -71,7 +71,7 @@ static void test_rshift_largish_number(void)
 
 
 
-int main()
+int main(void)
 {
   printf("\nRunning hand-picked test cases:\n");
 

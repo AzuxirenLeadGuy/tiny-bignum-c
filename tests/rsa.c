@@ -37,8 +37,7 @@
 
 
 #include <stdio.h>
-#include <string.h> /* for memcpy */
-#include "bn.h"
+#include <bn.h>
 
 /* O(log n) */
 void pow_mod_faster(struct bn* a, struct bn* b, struct bn* n, struct bn* res)
@@ -295,7 +294,7 @@ static void test_rsa1024(void)
 }
 
 
-int main()
+int main(void)
 {
   printf("\n");
   printf("Testing RSA encryption implemented with bignum. \n");

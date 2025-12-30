@@ -9,11 +9,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "bn.h"
+#include <bn.h>
 
 
 
-int main()
+int main(void)
 {
   char sabuf[8192];
   char sbbuf[8192];

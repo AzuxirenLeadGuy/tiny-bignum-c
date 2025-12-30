@@ -23,72 +23,18 @@ There may well be room for performance-optimizations and improvements.
 #include <stdint.h>
 #include <assert.h>
 
-
-/* This macro defines the word size in bytes of the array that constitues the big-number data structure. */
-#ifndef WORD_SIZE
-  #define WORD_SIZE 4
-#endif
-
-/* Size of big-numbers in bytes */
-#define BN_ARRAY_SIZE    (128 / WORD_SIZE)
-
-
-/* Here comes the compile-time specialization for how large the underlying array size should be. */
-/* The choices are 1, 2 and 4 bytes in size with uint32, uint64 for WORD_SIZE==4, as temporary. */
-#ifndef WORD_SIZE
-  #error Must define WORD_SIZE to be 1, 2, 4
-#elif (WORD_SIZE == 1)
-  /* Data type of array in structure */
-  #define DTYPE                    uint8_t
-  /* bitmask for getting MSB */
-  #define DTYPE_MSB                ((DTYPE_TMP)(0x80))
-  /* Data-type larger than DTYPE, for holding intermediate results of calculations */
-  #define DTYPE_TMP                uint32_t
-  /* sprintf format string */
-  #define SPRINTF_FORMAT_STR       "%.02x"
-  #define SSCANF_FORMAT_STR        "%2hhx"
-  /* Max value of integer type */
-  #define MAX_VAL                  ((DTYPE_TMP)0xFF)
-#elif (WORD_SIZE == 2)
-  #define DTYPE                    uint16_t
-  #define DTYPE_TMP                uint32_t
-  #define DTYPE_MSB                ((DTYPE_TMP)(0x8000))
-  #define SPRINTF_FORMAT_STR       "%.04x"
-  #define SSCANF_FORMAT_STR        "%4hx"
-  #define MAX_VAL                  ((DTYPE_TMP)0xFFFF)
-#elif (WORD_SIZE == 4)
-  #define DTYPE                    uint32_t
-  #define DTYPE_TMP                uint64_t
-  #define DTYPE_MSB                ((DTYPE_TMP)(0x80000000))
-  #define SPRINTF_FORMAT_STR       "%.08x"
-  #define SSCANF_FORMAT_STR        "%8x"
-  #define MAX_VAL                  ((DTYPE_TMP)0xFFFFFFFF)
-#endif
-#ifndef DTYPE
-  #error DTYPE must be defined to uint8_t, uint16_t uint32_t or whatever
-#endif
-
-
-/* Custom assert macro - easy to disable */
-#define require(p, msg) assert(p && msg)
-
-
 /* Data-holding structure: array of DTYPEs */
 struct bn
 {
-  DTYPE array[BN_ARRAY_SIZE];
+  uint32_t array[32];
 };
-
-
 
 /* Tokens returned by bignum_cmp() for value comparison */
 enum { SMALLER = -1, EQUAL = 0, LARGER = 1 };
 
-
-
 /* Initialization functions: */
 void bignum_init(struct bn* n);
-void bignum_from_int(struct bn* n, DTYPE_TMP i);
+void bignum_from_int(struct bn* n, uint64_t i);
 int  bignum_to_int(struct bn* n);
 void bignum_from_string(struct bn* n, char* str, int nbytes);
 void bignum_to_string(struct bn* n, char* str, int maxsize);
@@ -117,7 +63,4 @@ void bignum_pow(struct bn* a, struct bn* b, struct bn* c); /* Calculate a^b -- e
 void bignum_isqrt(struct bn* a, struct bn* b);             /* Integer square root -- e.g. isqrt(5) => 2*/
 void bignum_assign(struct bn* dst, struct bn* src);        /* Copy src into dst -- dst := src */
 
-
 #endif /* #ifndef __BIGNUM_H__ */
-
-
